@@ -1,2 +1,70 @@
-﻿{{!-- OWNER: frontend-admin — replace this placeholder with the configuration page. --}}
-{{> stub}}
+{{!-- System configuration - writes data/config.json and feeds the shared layout. --}}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <div>
+    <h2 class="mb-1">System configuration</h2>
+    <p class="text-secondary mb-0">Saved values appear in the navigation and in generated notifications.</p>
+  </div>
+</div>
+
+{{> alerts}}
+
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">Site details</div>
+      <div class="card-body">
+        <form method="POST" action="/admin/config">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="siteName">Site name</label>
+              <input id="siteName" name="siteName" class="form-control" value="{{config.siteName}}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="siteCode">Site code</label>
+              <input id="siteCode" name="siteCode" class="form-control" value="{{config.siteCode}}" required>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label" for="address">Address</label>
+              <input id="address" name="address" class="form-control" value="{{config.address}}" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="phone">Phone</label>
+              <input id="phone" name="phone" class="form-control" value="{{config.phone}}" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="notificationTemplate">Notification template</label>
+              <textarea id="notificationTemplate" name="notificationTemplate" class="form-control font-monospace" rows="4" required>{{config.notificationTemplate}}</textarea>
+              <div class="form-text">
+                Placeholders: <code>&#123;&#123;name&#125;&#125;</code>,
+                <code>&#123;&#123;trackingNo&#125;&#125;</code>,
+                <code>&#123;&#123;siteName&#125;&#125;</code>,
+                <code>&#123;&#123;pickupCode&#125;&#125;</code>.
+                They are replaced when a notification is generated.
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="language">Language</label>
+              <input type="hidden" name="language" value="en">
+              <input id="language" class="form-control" value="English" disabled>
+              <div class="form-text">Only English is available in this release.</div>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2">
+              <button type="submit" class="btn btn-primary">Save configuration</button>
+              <a href="/admin/config" class="btn btn-outline-secondary">Discard changes</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-header">Notification preview</div>
+      <div class="card-body">
+        <p class="text-secondary small">The template is stored as written. Placeholders are replaced per parcel when a pickup notification is issued.</p>
+        <div class="p-3 border rounded bg-body-tertiary small font-monospace">{{config.notificationTemplate}}</div>
+      </div>
+    </div>
+  </div>
+</div>
